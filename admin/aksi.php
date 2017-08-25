@@ -22,9 +22,9 @@ switch ($_GET['act']) {
   }
 
     $username = $_SESSION[id_user];
-    mysql_query("UPDATE order_produk set konfirmasi_order='sudah',id_petugas='$username' WHERE id_order='$id_order'");
+    mysql_query("UPDATE order_produk set konfirmasi_order='sudah' WHERE id_order='$id_order'");
 
-    echo "UPDATE order_produk set konfirmasi_order='sudah' WHERE id_order='$id_order'";
+    //echo "UPDATE order_produk set konfirmasi_order='sudah' WHERE id_order='$id_order'";
     echo"$sukses ";
 
 

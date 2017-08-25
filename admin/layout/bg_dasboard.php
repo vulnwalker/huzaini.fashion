@@ -1,8 +1,22 @@
-<?php 
+<?php
+$baseurl = $_COOKIE['baseurl'];
+$basedir = $_COOKIE['basedir'];
+// include('$basedir/framework/config.php');
+echo "
+    <script language='JavaScript' src='$baseurl/js/ajaxc2.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/dialog/dialog.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/js/global.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/js/base.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/js/encoder.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/lib/chatx/chatx.js' type='text/javascript'></script>
+    <script src='$baseurl/js/daftarobj.js' type='text/javascript'></script>
+    <script src='$baseurl/js/pageobj.js' type='text/javascript'></script>   ";
+echo "<script type='text/javascript' src='$baseurl/js/aksi/aksi.js'></script>";
+ ?>
+<?php
 session_start();
 $sql  = query("SELECT * FROM user where username ='$_SESSION[user]'");
 $data = fetch($sql);
-
 $jam   = date('H:i:s');
 $jam4  = '04:00';
 $jam10 = '10:00';
@@ -36,7 +50,7 @@ echo'
   <div class="row">
     <div class="grid">
       <div class="col-wd-5">
-        <img src="data:image/png;base64,' . $data[foto] . '"> 
+        <img src="data:image/png;base64,' . $data[foto] . '">
           <span class="users">'.$alert.'</span>
           <span id="name-user" class="users">'.$data[nama_lengkap].'</span>
       </div>
@@ -68,18 +82,19 @@ echo'
           <div class="col neworder">
             <div id="titledas">New Order</div>
               <table id="t01" class="beda01">
-                <tr>  
+                <tr>
                   <th>No</th>
                   <th>Id Order</th>
                   <th>Nama Pembeli</th>
                   <th>Tanggal Order</th>
                   <th>Aksi</th>
                 </tr>';
-                  $sql = "SELECT *FROM order_produk,user where user.id_user = order_produk.id_pembeli order by konfirmasi_order ASC limit 4";
+                  $sql = "SELECT *FROM order_produk,user where user.id_user = order_produk.id_pembeli and order_produk.konfirmasi_order != 'sudah' order by konfirmasi_order ASC limit 4";
                   $result = query($sql);
                     $no = 1;
                     while ($data= fetch($result)) {
                       if ($data[konfirmasi_order] == "belum") {
+                        $idOrder = str_replace('ID-',"",$data[id_order]);
                         echo'
                             <tr>
                               <td>'.$no.'</td>
@@ -87,19 +102,19 @@ echo'
                               <td>'.$data[nama_lengkap].'</td>
                               <td>'.$data[tgl_order].'</td>
                               <td>
-                              <a href="index.php?page=detail&order='.$data[id_order].'"> 
+                              <a href="index.php?page=detail&order='.$data[id_order].'">
                                 <button id="btna-plus"><i class="fa fa-check"></i> Konfirmasi</button>
                               </a>
-                              <a href="#" onclick="if
+
+                              <button  onclick="if
                                     (confirm(\'Apakah anda ingin mereject order = '.$data[id_order],' ? \'))
-                                    location.href=\'proses.php?act=hapus_order&id='.$data[id_order].'\';">   
-                              <button id="btna-hapus"><i class="fa fa-close"></i> Hapus</button></a>
+                                    aksi.removeOrder('.$idOrder.');" id="btna-hapus"><i class="fa fa-close"></i> Hapus</button>
                               </td>
                             </tr>';
                          $no++;
                         }
-                       }  
-                  echo'         
+                       }
+                  echo'
             </table>
             <a href="index.php?page=transaksi"><div class="ftab f-blue">Lihat Semua Data Order</div></a>
           </div>
@@ -108,7 +123,7 @@ echo'
         <div class="col newmember">
           <div id="titledas1">Member Baru</div>
               <table id="t01" class="beda02">
-                <tr>  
+                <tr>
                   <th>Id Member</th>
                   <th>Nama</th>
                   <th>Bergabung</th>
@@ -124,14 +139,13 @@ echo'
                             <td>'.$datam[nama_lengkap].'</td>
                             <td>'.$datam[tgl].' - '.$nama_bulan[$bln].' - '.$datam[thn].'</td>
                           </tr>';
-                       $no++;     
+                       $no++;
                       }
                   echo'
                </table>
-               <a href="index.php?page=member"><div class="ftab f-green">Lihat Semua Data Member</div></a> 
+               <a href="index.php?page=member"><div class="ftab f-green">Lihat Semua Data Member</div></a>
         </div>
       </div>
     </div>
   </div>
 </div>';?>
-

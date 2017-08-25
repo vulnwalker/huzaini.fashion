@@ -1,23 +1,38 @@
+<?php
+$baseurl = $_COOKIE['baseurl'];
+$basedir = $_COOKIE['basedir'];
+// include('$basedir/framework/config.php');
+echo "
+    <script language='JavaScript' src='$baseurl/js/ajaxc2.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/dialog/dialog.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/js/global.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/js/base.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/js/encoder.js' type='text/javascript'></script>
+    <script language='JavaScript' src='$baseurl/lib/chatx/chatx.js' type='text/javascript'></script>
+    <script src='$baseurl/js/daftarobj.js' type='text/javascript'></script>
+    <script src='$baseurl/js/pageobj.js' type='text/javascript'></script>   ";
+echo "<script type='text/javascript' src='$baseurl/js/aksi/aksi.js'></script>";
+ ?>
 <div class="row">
   <div class="grid">
-  
+
     <div class="col-wd-12">
       <div class="navigasi">
         <div class="col animated fadeInDown">
           <div class="nav-beranda right">
           <a href='index.php'><i class="fa fa-home"></i> Dasboard</a></div>
           <div class="sub-nav">
-              <a href='index.php?page=merek'>Produk</a> 
+              <a href='index.php?page=merek'>Produk</a>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
 
 <div class="col-wd-12">
   <div class="formbg">
     <div class="col pos-left animated fadeIn delay-07s">
-      <div class="atas"><img src="img/cross.png"><span>Data Produk</span>  
-        <form action="index.php?page=produk&bar=cari" method="POST"> 
+      <div class="atas"><img src="img/cross.png"><span>Data Produk</span>
+        <form action="index.php?page=produk&bar=cari" method="POST">
           <input type="text" class="cari" name="cari" placeholder="Cari Produk...">
         </form>
       </div>
@@ -32,33 +47,33 @@
     } else{
       $posisi = ($halaman-1) * $batas;
     }
-?> 
-      <div class="posbg">   
+?>
+      <div class="posbg">
           <a href="index.php?page=produk#add_form"><button class="btn-tambah">
               <i class="fa fa-plus"></i> Tambah Produk
           </button></a>
       <table id="t01">
-        <tr>  
+        <tr>
           <th>No</th>
           <th>Nama</th>
           <th>Jenis</th>
           <th>Merek</th>
           <th>Kategori</th>
           <th>Harga</th>
-          <th>Stok 
+          <th>Stok
             <a href="index.php?page=produk&bar=stok">
               <button class="urut" type="submit">
                 <i class="fa fa-sort-amount-asc"></i>
               </button>
-            </a>  
+            </a>
           </th>
           <th>Deskripsi</th>
           <th>Foto</th>
           <th>Aksi</th>
         </tr>
-      
+
 <?php
-switch ($bar) {                  
+switch ($bar) {
     default:
       $sql = "SELECT *FROM produk,kategori,merek WHERE produk.id_kategori = kategori.id_kategori AND produk.id_merek = merek.id_merek order by produk.id ASC limit $posisi,$batas";
       $result =query($sql);
@@ -70,7 +85,7 @@ switch ($bar) {
             $stok = $data['stok'];
           }
 
-          echo' 
+          echo'
               <tr class="animated flipInX delay-10s">
                 <td>'.$no.'</td>
                 <td>'.$data['nama_produk'].'</td>
@@ -90,14 +105,14 @@ switch ($bar) {
                 </a>
                 <a href="#" onclick="if
                 (confirm(\'Apakah anda ingin menghapus data = '.$data['id'],' ? \'))
-                location.href=\'proses.php?act=hapus_produk&id='.$data['id'].'\';">    
+                 aksi.deleteProduk('.$data['id'],');;">
                 <button id="btna-hapus"><i class="fa fa-trash"></i></button></a>
                 </td>
               </tr>';
-           $no++;     
+           $no++;
           }
     break;
-    
+
     case 'cari':
       echo"<center>Hasil Pencarian untuk '<b>$cari</b>'</center>";
 
@@ -105,7 +120,7 @@ switch ($bar) {
       $hasil =query($sql);
         $no = 1;
         while ($data=fetch($hasil)) {
-   
+
         $nama = preg_replace("/(" . $cari . ")/i", "<b style='color:#3498DB !important;'>$1</b>", $data['nama_produk']);
         $jenis = preg_replace("/(" . $cari . ")/i", "<b style='color:#3498DB !important;'>$1</b>", $data['jenis']);
         $merek = preg_replace("/(" . $cari . ")/i", "<b style='color:#3498DB !important;'>$1</b>", $data['nama_merek']);
@@ -131,12 +146,12 @@ switch ($bar) {
                 </a>
                 <a href="#" onclick="if
                 (confirm(\'Apakah anda ingin menghapus data = '.$data['id'],' ? \'))
-                location.href=\'proses.php?act=hapus_produk&id='.$data['id'].'\';">    
+                  aksi.deleteProduk('.$data['id'],');">
                 <button id="btna-hapus"><i class="fa fa-trash"></i></button></a>
                 </td>
               </tr>';
-           $no++;     
-          }   
+           $no++;
+          }
     break;
 
     case 'stok':
@@ -150,7 +165,7 @@ switch ($bar) {
             $stok = $data['stok'];
           }
 
-          echo' 
+          echo'
               <tr class="animated flipInX delay-10s">
                 <td>'.$no.'</td>
                 <td>'.$data['nama_produk'].'</td>
@@ -170,14 +185,14 @@ switch ($bar) {
                 </a>
                 <a href="#" onclick="if
                 (confirm(\'Apakah anda ingin menghapus data = '.$data['id'],' ? \'))
-                location.href=\'proses.php?act=hapus_produk&id='.$data['id'].'\';">    
+                location.href=\'proses.php?act=hapus_produk&id='.$data['id'].'\';">
                 <button id="btna-hapus"><i class="fa fa-trash"></i></button></a>
                 </td>
               </tr>';
-           $no++;     
+           $no++;
           }
     break;
-  }        
+  }
 ?>
       </table>
       <div align="right" class="pagging">
@@ -189,7 +204,7 @@ switch ($bar) {
           if($halaman > 1){
               $previous=$halaman-1;
                 echo "<A HREF=$file&halaman=$previous class='pagenav left'><i class='fa fa-angle-left'></i></A>";
-          } else { 
+          } else {
                  echo "<span class='pagenav1 left next'><i class='fa fa-angle-left'></i></span>";
           }
 
@@ -203,14 +218,14 @@ switch ($bar) {
           if($halaman < $jmlhalaman){
                   $next=$halaman+1;
                   echo "<a href=$file&halaman=$next class='pagenav right'><i class='fa fa-angle-right'></i></a>";
-              } else { 
+              } else {
                   echo "<span class='pagenav1 right'><i class='fa fa-angle-right'></i></span>";
               }
             ?>
 		        </div>
           </div>
         </div>
-      </div>        
+      </div>
     </div>
   </div>
 </div>

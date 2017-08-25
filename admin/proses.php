@@ -1,12 +1,14 @@
 <?php session_start();
 include'../func/fungsi.php';
+include'../framework/config.php';
+
 
 switch($act){
   case 'login':
     $password = MD5($pass);
     $data = query("SELECT * from user where username='$username' AND password='$password' AND level='admin'");
     $cek  = numrows($data);
-     
+
     if($cek==0){
       $_SESSION[pesan]="Username atau Password yang anda masukan salah";
       echo"<script languange='javascript'>
@@ -22,10 +24,10 @@ switch($act){
   break;
 
   case 'logout':
-   
+
      session_destroy();
      header('location:login.php');
-   
+
   break;
 
   case 'add_merek':
@@ -35,36 +37,36 @@ switch($act){
           insert('merek',($isi));
      } else {
             echo "$notformat";
-     }         
+     }
   break;
 
   case 'edit_merek':
-    if (!empty($extensi)) { 
+    if (!empty($extensi)) {
         if (exten($extensi) == 'jpg' OR 'jpeg' OR 'png' OR 'gif') {
           $img = encode($gambar);
           $edit= query("UPDATE merek set nama='$nama', keterangan='$keterangan' ,logo='$img' WHERE id_merek='$id_merek'");
-            alertupdate($edit);  
+            alertupdate($edit);
          } else {
             echo"$notformat";
          }
     } else {
       $edit= query("UPDATE merek set nama='$nama', keterangan='$keterangan' WHERE id_merek='$id_merek'");
-        alertupdate($edit); 
-    }      
+        alertupdate($edit);
+    }
   break;
-  
+
   case 'hapus_merek':
       hapus('merek', 'id_merek="' . $id . '"');
-  break; 
+  break;
 
   case 'add_kategori':
     $isi = "'$id_kategori','$nama','$keterangan'";
     insert('kategori',($isi));
   break;
 
-  case 'edit_kategori': 
+  case 'edit_kategori':
     $edit= query("UPDATE kategori set nama='$nama', keterangan='$keterangan' WHERE id_kategori='$id_kategori'");
-      alertupdate($edit);             
+      alertupdate($edit);
   break;
 
   case 'hapus_kategori':
@@ -82,48 +84,48 @@ switch($act){
      } else {
             echo "$notformat";
      }
-   }           
+   }
   break;
 
   case 'edit_produk':
-    if (!empty($extensi)) {     
+    if (!empty($extensi)) {
         if (exten($extensi) == 'jpg' OR 'jpeg' OR 'png' OR 'gif') {
           $img  = encode($gambar);
           $edit = query("UPDATE produk set nama='$nama', jenis='$jenis', id_merek='$merek', id_kategori='$kategori', harga='$harga', deskripsi='$deskripsi', foto='$img' WHERE id='$id'");
-                alertupdate($edit);    
+                alertupdate($edit);
          } else {
             echo"$notformat";
           }
     } else {
       $edit= query("UPDATE produk set nama='$nama', jenis='$jenis', id_merek='$merek', id_kategori='$kategori', harga='$harga', deskripsi='$deskripsi' WHERE id='$id'");
-                alertupdate($edit);    
-    }      
+                alertupdate($edit);
+    }
   break;
 
   case 'hapus_produk':
     hapus('produk', 'id="' . $id . '"');
   break;
 
-  case 'tambah_stok': 
+  case 'tambah_stok':
     $hasil = $stok_awal + $add;
     $edit = query("UPDATE produk set stok=$hasil WHERE id='$id'");
     $isi = "'','$id','$stok_awal','$add','$hasil','$tglsekarang','$_SESSION[id_user]','$_SESSION[user]'";
-    insert('tambah_stok',($isi));        
+    insert('tambah_stok',($isi));
   break;
 
   case 'edit_profile':
-    if (!empty($extensi)) {     
+    if (!empty($extensi)) {
           if (exten($extensi) == 'jpg' OR 'jpeg' OR 'png' OR 'gif') {
           $img = encode($gambar);
           $edit= query("UPDATE user set nama_lengkap='$nama_lengkap', email='$email', tlp='$tlp', alamat='$alamat', foto='$img' WHERE username ='$_SESSION[user]' ");
-                alertupdate($edit);   
+                alertupdate($edit);
          } else {
             echo"$notformat";
           }
     } else {
       $edit= query("UPDATE user set nama_lengkap='$nama_lengkap', email='$email', tlp='$tlp', alamat='$alamat' WHERE username ='$_SESSION[user]' ");
-            if ($edit){ echo"$suksesprof"; } else { echo"$gagal"; }    
-    }      
+            if ($edit){ echo"$suksesprof"; } else { echo"$gagal"; }
+    }
   break;
 
   case 'hapus_order':
@@ -155,7 +157,7 @@ switch($act){
         $pw = md5($pass);
         $isi = "'','$email','$pw','$nama','$email','$tlp','$alamat','$defaultimg','petugas','$tglsekarang'";
         insert('user',($isi));
-      }  
+      }
   break;
 
   case 'hapus_petugas':

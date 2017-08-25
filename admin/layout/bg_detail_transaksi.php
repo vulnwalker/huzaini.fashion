@@ -74,7 +74,7 @@ echo'
                                 <input type="hidden" name="id_order" value="'.$order.'">
                                 <tr>
                                   <td>'.$no.'</td>
-                                  <td>'.$data[nama].'</td>
+                                  <td>'.$data[nama_produk].'</td>
                                   <td>'.$data[jumlah].'</td>
                                   <td>Rp. '.rupiah($data[harga]).'</td>
                                   <td>Rp. '.rupiah($subtotal).'</td>

@@ -1,19 +1,21 @@
+
 <?php session_start();
 include'../func/fungsi.php';
+
   if(empty($_SESSION[user])){
       header('location:login.php');
   } elseif ($_SESSION[level] == "member") {
       header('location:../index.php');
   } elseif ($_SESSION[level] == "petugas") {
       session_destroy();
-      header('location:login.php');    
-  } else { 
+      header('location:login.php');
+  } else {
 ?>
 
 <!DOCTYPE html>
 
 <head>
-  <title>Online Shop</title>
+  <title>Huzaini Fashion</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="css/normalize.css" rel='stylesheet'>
@@ -29,7 +31,7 @@ include'../func/fungsi.php';
   <script src="js/vertical-responsive-menu.min.js"></script>
 </head>
 
-<script>  
+<script>
   $(document).ready(function() {
     $('#tombol').click(function() {
       $('.box').toggle();
@@ -37,13 +39,13 @@ include'../func/fungsi.php';
   });
 
 </script>
-      
+
 <body onLoad="setInterval('displayServerTime()', 1000);">
 
-<?php  
+<?php
 ?>
 
-<?php 
+<?php
   require'content/header.php';
   require'content/menu.php';
 
@@ -67,8 +69,8 @@ switch($page){
 
   case 'detail':
     require'layout/bg_detail_transaksi.php';
-  break;        
- 
+  break;
+
 // Produk
   case 'kategori':
     require'layout/bg_kategori.php';
@@ -84,7 +86,7 @@ switch($page){
     require'layout/bg_produk.php';
     require'content/form_produk.php';
   break;
- 
+
 // User
   case 'petugas':
     require'layout/bg_petugas.php';

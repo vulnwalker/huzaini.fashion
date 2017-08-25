@@ -1,6 +1,6 @@
 var aksi = new DaftarObj2({
 	prefix : 'aksi',
-	url : 'framework/pages.php?Pg=aksi',
+	url : 'http://127.0.0.8/framework/pages.php?Pg=aksi',
 	formName : 'aksiForm',
 
 	loading: function(){
@@ -304,6 +304,140 @@ var aksi = new DaftarObj2({
 	 validateEmail: function(email) {
 		  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		  return re.test(email);
-		}
+		},
+
+		saveAddProduk: function() {
+				var me = this;
+				if($("#nama").val() == ''){
+					alert("Isi Nama Produk");
+				}else if($("#jenis").val() == ''){
+					alert("Pilih Jenis Produk");
+				}else if($("#kategori").val() == ''){
+					alert("Pilih Kategori Produk");
+				}else if($("#harga").val() == ''){
+					alert("Isi Harga Produk");
+				}else if($("#stok").val() == ''){
+					alert("Isi Stok Produk");
+				}else if($("#deskripsi").val() == ''){
+					alert("Isi Deskripsi Produk");
+				}else if($("#tempatBase").val() == ''){
+					alert("Pilih Foto");
+				}else{
+						// data:$("#formAddProduk").serialize()+"&tempatBase="+$("#tempatBase").val(),
+						var hubla  = {
+													nama : $("#nama").val(),
+													jenis : $("#jenis").val(),
+													kategori : $("#kategori").val(),
+													harga : $("#harga").val(),
+													stok : $("#stok").val(),
+													deskripsi : $("#deskripsi").val(),
+													tempatBase : $("#tempatBase").val(),
+
+													} ;
+
+						$.ajax({
+								type:'POST',
+								url: this.url+'&tipe=addProduk',
+						    data: hubla,
+									success: function(data) {
+										var resp = eval('(' + data + ')');
+											alert("Produk Ditambahkan");
+											window.location = "?page=produk";
+									}
+							});
+				}
+ 		},
+
+		deleteProduk: function(id) {
+
+						$.ajax({
+								type:'POST',
+								data:{id : id},
+								url: this.url+'&tipe=deleteProduk',
+									success: function(data) {
+										var resp = eval('(' + data + ')');
+											alert("Data Dihapus");
+											window.location = "?page=produk";
+									}
+							});
+
+ 		},
+
+
+		saveEditProduk: function(id) {
+				var me = this;
+				if($("#nama2").val() == ''){
+					alert("Isi Nama Produk");
+				}else if($("#jenis2").val() == ''){
+					alert("Pilih Jenis Produk");
+				}else if($("#kategori2").val() == ''){
+					alert("Pilih Kategori Produk");
+				}else if($("#harga2").val() == ''){
+					alert("Isi Harga Produk");
+				}else if($("#deskripsi2").val() == ''){
+					alert("Isi Deskripsi Produk");
+				}else{
+						var hubla  = {
+													nama : $("#nama2").val(),
+													jenis : $("#jenis2").val(),
+													kategori : $("#kategori2").val(),
+													harga : $("#harga2").val(),
+													deskripsi : $("#deskripsi2").val(),
+													tempatBase : $("#tempatBase2").val(),
+													id : id
+
+													} ;
+						$.ajax({
+								type:'POST',
+								url: this.url+'&tipe=editProduk',
+						    data: hubla,
+									success: function(data) {
+										var resp = eval('(' + data + ')');
+											alert("Produk Diubah");
+											window.location = "?page=produk";
+									}
+							});
+				}
+ 		},
+
+
+		addStok: function(id) {
+				var me = this;
+
+						var hubla  = {
+													jumlah : $("#jumlahAdd").val(),
+													id : id
+
+													} ;
+						$.ajax({
+								type:'POST',
+								url: this.url+'&tipe=addStok',
+						    data: hubla,
+									success: function(data) {
+										var resp = eval('(' + data + ')');
+											alert("Stok Diubah");
+											window.location = "?page=produk";
+									}
+							});
+ 		},
+
+		removeOrder: function(id) {
+
+						$.ajax({
+								type:'POST',
+								data:{id : 'ID-'+id},
+								url: this.url+'&tipe=removeOrder',
+									success: function(data) {
+										var resp = eval('(' + data + ')');
+											alert("Data Dihapus");
+											window.location.reload();
+									}
+							});
+
+ 		},
+
+
+
+
 
 });

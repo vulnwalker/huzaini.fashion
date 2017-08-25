@@ -109,6 +109,97 @@ class aksiObj  extends DaftarObj2{
 	    }
 
 
+			case 'removeOrder':{
+				foreach ($_REQUEST as $key => $value) {
+					$$key = $value;
+				}
+				mysql_query("delete from order_detail where id_order = '$id'");
+				mysql_query("delete from order_produk where id_order = '$id'");
+			break;
+		    }
+
+			case 'addStok':{
+				foreach ($_REQUEST as $key => $value) {
+					$$key = $value;
+				}
+
+					mysql_query("update produk set stok = stok + $jumlah where id = '$id'");
+					$cek = "update produk set stok = stok + $jumlah where id = '$id'";
+						break;
+		    }
+
+			case 'deleteProduk':{
+				foreach ($_REQUEST as $key => $value) {
+					$$key = $value;
+				}
+				mysql_query("delete from produk where id = '$id'");
+			break;
+		    }
+			case 'addProduk':{
+					foreach ($_REQUEST as $key => $value) {
+					  $$key = $value;
+				  }
+
+
+					$tempatBase = preg_replace('#^data:image/\w+;base64,#i', '',$tempatBase);
+					$data = array(
+												'nama_produk' => $nama,
+												'jenis' => $jenis,
+												'id_kategori' => $kategori,
+												'harga' => $harga,
+												'stok' => $stok,
+												'deskripsi' => $deskripsi,
+												'foto' => $tempatBase,
+												'tgl_add' => date('Y-m-d')
+					);
+					mysql_query(VulnWalkerInsert("produk",$data));
+
+
+					$cek = VulnWalkerInsert("produk",$data);
+
+
+					$content = array('foto' => $foto);
+
+			break;
+		    }
+
+
+				case 'editProduk':{
+						foreach ($_REQUEST as $key => $value) {
+						  $$key = $value;
+					  }
+						$tempatBase = preg_replace('#^data:image/\w+;base64,#i', '',$tempatBase);
+						if(empty($tempatBase)){
+							$data = array(
+														'nama_produk' => $nama,
+														'jenis' => $jenis,
+														'id_kategori' => $kategori,
+														'harga' => $harga,
+														'deskripsi' => $deskripsi,
+							);
+						}else{
+							$data = array(
+														'nama_produk' => $nama,
+														'jenis' => $jenis,
+														'id_kategori' => $kategori,
+														'harga' => $harga,
+														'deskripsi' => $deskripsi,
+														'foto' => $tempatBase,
+							);
+						}
+
+
+						mysql_query(VulnWalkerUpdate("produk",$data,"id= '$id'"));
+
+
+						$cek  =VulnWalkerUpdate("produk",$data,"id= '$id'");
+
+
+						$content = array('foto' => $foto);
+
+				break;
+			    }
+
 			case 'updateProfile':{
 					foreach ($_REQUEST as $key => $value) {
 					  $$key = $value;

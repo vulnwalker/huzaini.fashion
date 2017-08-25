@@ -1,6 +1,6 @@
 <?php session_start();
 include 'func/fungsi.php';
-$base_url   = "http://127.0.0.8/framework";
+$base_url   = "http://huzaini.fashion/framework";
 setcookie('baseurl',$base_url);
 $base_dir  = getcwd();
 setcookie('basedir',$base_dir);
